@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %} TCS Bank {% endblock title %}
+
+{% block main %}
+<div class="d-flex justify-content-center">
+    <div class="card mt-5 w-50">
+        <div class="card-header">
+            <h1 class="card-title text-center">TCS Bank</h1>
+        </div>
+        <div class="card-body">
+            {% from "includes/_form.html" import form_field %}
+            <form method="POST" action="{{ url_for('login') }}" novalidate>
+                {{ form.hidden_tag() }}
+                {{ form_field(form.username, class="form-control") }}
+                {{ form_field(form.password, class="form-control") }}
+                {{ form_field(form.rememberMe) }}
+                {{ form.submit(class="btn btn-outline-primary") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}
