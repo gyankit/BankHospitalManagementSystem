@@ -1,4 +1,4 @@
-.git/
-.vscode/
-Pipfile.lock
-/env
+.git/*
+.vscode/*
+env/*
+venv/*
