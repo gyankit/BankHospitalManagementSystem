@@ -1,7 +1,7 @@
 from App import app, db
 from flask import render_template, redirect, request, url_for, flash, session
 from passlib.hash import sha256_crypt
-from App.forms import LoginForm, RegisterForm
+from App.forms import LoginForm, Account_createForm,Account_deleteForm
 from App.models import User
 from datetime import datetime
 import json
@@ -55,3 +55,26 @@ def register():
 @app.route('/home')
 def home():
     return render_template('home.html')
+
+
+@app.route('/Account_create')
+def Account_create():
+    form = Account_createForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        Customer_Id = form.form.Customer_Id.data
+        Account_type = form.Account_type.data
+        Account_Id = form.form.Deposit_Amount.data
+    return render_template('Account_create.html',form=form)
+
+
+
+
+@app.route('/Account_delete')
+def Account_delete():
+    form = Account_deleteForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        Account_Id = form.form.Account_Id.data
+        Account_type = form.Account_type.data
+    return render_template('Account_delete.html',form=form)
+
+
