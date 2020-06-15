@@ -78,3 +78,6 @@ def Account_delete():
     return render_template('Account_delete.html',form=form)
 
 
+@app.route('/Account_status')
+def Account_status():
+    return render_template('Account_status.html')
