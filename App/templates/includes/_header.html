@@ -4,12 +4,16 @@
             <h1>Retail Bank</h1>
         </a>
     </nav>
+    {% if session.is_login %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0 pb-0">
         <div class="container bg-warning font-weight-bold" style="height: 40px;">
-            
-            {% if session.is_login %}
+            <a class="text-dark text-decoration-none" href="{{ url_for('home') }}">Home</a>
+            <a class="text-dark text-decoration-none" href="">Customer Management</a>
+            <a class="text-dark text-decoration-none" href="">Account Management</a>
+            <a class="text-dark text-decoration-none" href="">Status Details</a>
+            <a class="text-dark text-decoration-none" href="">Account Operation</a>
             <a class="text-dark text-decoration-none" href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
         </div>
     </nav>
+    {% endif %}
 </header>
