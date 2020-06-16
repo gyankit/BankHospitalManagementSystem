@@ -11,4 +11,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from App import routes,models
+from App import routes, models

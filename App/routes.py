@@ -1,8 +1,9 @@
 from App import app, db
 from flask import render_template, redirect, request, url_for, flash, session
 from passlib.hash import sha256_crypt
+from App.decorators import login_required, login_checked
 from App.forms import LoginForm, AccountCreateForm, AccountDeleteForm
-from App.models import User
+from App.models import UserStore
 from datetime import datetime
 import json
 
@@ -46,6 +47,7 @@ def logout():
 def home():
     return render_template('home.html')
 
+"""
 #Register route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -64,35 +66,32 @@ def register():
             return redirect(url_for('home'))
             
     return render_template('register.html', form=form)
-    
+""" 
 
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-
-@app.route('/Account_create')
-def Account_create():
-    form = Account_createForm()
+#Create Account Route
+@app.route('/account/create')
+@login_required
+def accountCreate():
+    form = AccountCreateForm()
     if request.method == 'POST' and form.validate_on_submit():
-        Customer_Id = form.form.Customer_Id.data
-        Account_type = form.Account_type.data
-        Account_Id = form.form.Deposit_Amount.data
-    return render_template('Account_create.html',form=form)
+        CustomerId = form.customerId.data
+        AccountType = form.cccountType.data
+        AccountId = form.depositAmount.data
+    return render_template('accountCreate.html', form=form)
 
-
-
-
-@app.route('/Account_delete')
-def Account_delete():
-    form = Account_deleteForm()
+#Delete Account Route
+@app.route('/account/delete')
+@login_required
+def accountDelete():
+    form = AccountDeleteForm()
     if request.method == 'POST' and form.validate_on_submit():
-        Account_Id = form.form.Account_Id.data
-        Account_type = form.Account_type.data
-    return render_template('Account_delete.html',form=form)
+        AccountId = form.accountId.data
+        AccountType = form.accountType.data
+    return render_template('accountDelete.html', form=form)
 
-
-@app.route('/Account_status')
-def Account_status():
-    return render_template('Account_status.html')
+#Account Status Route
+@app.route('/account')
+@app.route('/account/status')
+@login_required
+def accountStatus():
+    return render_template('accountStatus.html')

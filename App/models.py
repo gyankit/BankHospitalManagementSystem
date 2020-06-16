@@ -10,9 +10,9 @@ class UserStore(db.Model):
     datetime = db.Column( db.DateTime(timezone=True), nullable=False, default=datetime.utcnow )
 
     def __init__(self, username, password, datetime):  
-      self.username = username  
-      self.password = password  
-      self.datetime = datetime  
+      self.username = username
+      self.password = password
+      self.datetime = datetime
 
     def __repr__(self):
         return '<User %r' % self.username
