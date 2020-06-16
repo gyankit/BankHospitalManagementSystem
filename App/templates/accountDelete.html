@@ -9,13 +9,13 @@
 </div>
 
 <div class="d-flex justify-content-center">
-    <div class="jumbotron w-50">
+    <div class="jumbotron col-lg-8">
         {% from "includes/_form.html" import form_inline_field %}
         <form method="POST" action="{{ url_for('accountDelete') }}" novalidate>
             {{ form.hidden_tag() }}
             {{ form_inline_field(form.accountId, class="form-control") }}
             {{ form_inline_field(form.accountType, class="form-control") }}
-            <div class="d-flex justify-content-center mt-3">
+            <div class="d-flex justify-content-center mt-5">
                 {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark text-warning") }}
             </div>
         </form>

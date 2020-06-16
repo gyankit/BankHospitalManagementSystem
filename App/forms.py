@@ -8,6 +8,16 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
+class CustomerForm(FlaskForm):
+	ssnid = IntegerField('Customer SSN Id', [validators.DataRequired(), validators.length(min=9, max=9)])
+	customer_name = StringField('Customer Name', [validators.DataRequired()])
+	age = IntegerField('Age', [validators.DataRequired()])
+	address = StringField('Address', [validators.DataRequired()])
+	state = SelectField('State', [validators.DataRequired()], choices=[])
+	city = SelectField('City', [validators.DataRequired()], choices=[])
+	submit = SubmitField('Submit')
+
+
 class AccountCreateForm(FlaskForm):
     customerId = IntegerField('Customer Id', [validators.DataRequired()])
     accountType = SelectField('Account Type',[validators.DataRequired()], choices=[('savings', 'Saving Account'),('current', 'Current Account')])

@@ -12,11 +12,13 @@
 
 {% macro form_inline_field(field) %}
     <div class="form-group row">
-        {{ field.label(class="font-weight-bold") }}
+        <div class="col-lg-3">
+            {{ field.label(class="font-weight-bold") }}
+        </div>
         <div class="col-lg-9">
             {{ field(**kwargs)|safe }}
         </div>
-        <div class="mt-1 d-flex justify-content-end">
+        <div class="d-flex justify-content-end">
             {% for error in field.errors %}
                 <p class="text-danger font-weight-bold">{{ error }}</p>
             {% endfor %}
