@@ -12,16 +12,19 @@ from App.cities import getstates, getcities
 
 #Login route
 @app.route('/login', methods=['GET', 'POST'])
+@login_checked
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        user=User.query.filter_by(username=username).first()
+        user = UserStore.query.filter_by(username=username).first()
         if user is None:
             flash('Wrong login credentials', 'danger')
         else:
             if sha256_crypt.verify(password, user.password):
+                session['is_login'] = True
+                session['user'] = username
                 flash('Successful Login', 'success')
                 return redirect(url_for('home'))
             else:
@@ -71,10 +74,11 @@ def customerCreate():
         address = form.age.data
         state = form.state.data
         city = form.city.data
-        if User.query.filter_by(ssnid=ssnid).first():
+        if Customer.query.filter_by(ssnid=ssnid).first():
             flash('SSN Id already taken', 'danger')
         else:
             newCustomer = Customer(ssnid=ssnid, customer_name=cust_name, age=age, address=address, state=state, city=city)
+            db.session.add(newCustomer)
             db.session.commit()
             flash('New Customr Successfully Added', 'success')
             return redirect(url_for('home'))
