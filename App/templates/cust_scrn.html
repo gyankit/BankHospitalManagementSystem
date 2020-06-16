@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}TCS Bank | Create Customer Screen {% endblock title %}
+
+{% block main %}
+<div class="d-flex justify-content-center">
+    <div class="card mt-5 w-50 border-warning">
+        <div class="card-header bg-warning">
+            <h1 class="card-title text-center">Create Customer</h1>
+        </div>
+        <div class="card-body">
+            {% from "includes/_form.html" import form_field %}
+            <form method="POST" action="{{ url_for('cust_scrn') }}" novalidate>
+                {{ form.hidden_tag() }}
+                {{ form_field(form.ssnid, class="form-control") }}
+                {{ form_field(form.customer_name, class="form-control") }}
+                {{ form_field(form.age, class="form-control") }}
+                {{ form_field(form.address, class="form-control") }}
+                {{ form_field(form.state, class="form-control") }}
+                {{ form_field(form.city, class="form-control") }}
+                {{ form.submit(class="btn btn-outline-primary") }}
+            </form>
+            
+            <script>
+            	let state_select = document.getElementById('state')
+            	let city_select = document.getElementById('city')
+
+            	state_select.onchange = function() {
+            		state = state_select.value;
+
+            		fetch('/city/' + state).then(function(response){
+            			
+            			response.json().then(function(data) {
+            				let optionHTML = '';
+
+            				for (let city of data.cities) {
+            					optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
+            				}
+
+            				city_select.innerHTML = optionHTML;
+
+            			});
+            		});
+            	}
+            </script>>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+
+
