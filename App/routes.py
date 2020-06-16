@@ -1,5 +1,5 @@
 from App import app, db
-from flask import render_template, redirect, request, url_for, flash, session
+from flask import render_template, redirect, request, url_for, flash, session, jsonify
 from passlib.hash import sha256_crypt
 from App.decorators import login_required, login_checked
 from App.forms import LoginForm, CustomerForm, AccountCreateForm, AccountDeleteForm
@@ -7,29 +7,25 @@ from App.models import UserStore, Customer
 from App.cities import getstates, getcities
 from datetime import datetime
 import json
+from App.cities import getstates, getcities
 
 
 #Login route
 @app.route('/login', methods=['GET', 'POST'])
-@login_checked
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-
-        user = UserStore.query.filter_by(username=username).first()
+        user=User.query.filter_by(username=username).first()
         if user is None:
-            flash('Wrong login credantials', 'danger')
+            flash('Wrong login credentials', 'danger')
         else:
             if sha256_crypt.verify(password, user.password):
-                session['is_login'] = True
-                session['user'] = username
                 flash('Successful Login', 'success')
                 return redirect(url_for('home'))
             else:
-                flash('Wrong Password', 'danger')
-            
+                flash('Wrong Password', 'danger')      
     return render_template('login.html', form=form)
 
 #Logout Route
@@ -53,14 +49,12 @@ def home():
 @login_required
 def city(state):
     cities = getcities()[int(state)]
-
     cityArray = []
     for city in cities:
         cityObj = {}
         cityObj['id'] = city[0]
         cityObj['name'] = city[1]
         cityArray.append(cityObj)
-
     return jsonify({'cities' : cityArray})
 
 #Customer Route
@@ -69,9 +63,7 @@ def city(state):
 def customerCreate():
     form = CustomerForm()
     states = getstates()
-
     form.state.choices = [(i,state) for i,state in enumerate(states)]
-
     if request.method == 'POST' and form.validate_on_submit():
         ssnid = form.ssnid.data
         cust_name = form.customer_name.data
@@ -79,7 +71,6 @@ def customerCreate():
         address = form.age.data
         state = form.state.data
         city = form.city.data
-
         if User.query.filter_by(ssnid=ssnid).first():
             flash('SSN Id already taken', 'danger')
         else:
@@ -87,9 +78,7 @@ def customerCreate():
             db.session.commit()
             flash('New Customr Successfully Added', 'success')
             return redirect(url_for('home'))
-
     return render_template('customerCreate.html', form=form)
-
 
 #Create Account Route
 @app.route('/account/create')

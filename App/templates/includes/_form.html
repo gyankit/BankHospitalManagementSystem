@@ -1,4 +1,4 @@
-{% macro form_field(field) %}
+{% macro form_field(field, id) %}
     <div class="form-group">
         {{ field.label }}
         {{ field(**kwargs)|safe }}
