@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+NAMASTE Bank | Account | Status
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
+{% endblock css %}
+  
+
+{% block main %}
+
+<div class="alert text-center">
+    <h2 class="">Customer Status</h2>
+</div>
+
+<div class="jumbotron table-responsive">
+    <table class="table table-bordered table-hover table-sm" id="statustable">
+        <thead class="bg-dark text-warning">
+            <tr>
+                <th>SSN Id</th> 
+                <th>Customer Id</th>
+                <th>Status</th>
+                <th>Message</th>
+                <th>Last Updated</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody class="">
+            {% for customer in customers %}  
+            <tr>
+                <td scope="row">{{ customer.ssnid }}</td>
+                <td>{{ customer.customerId }}</td>
+                <td>{{ customer.status }}</td>
+                <td>{{ customer.message }}</td>
+                <td>{{ customer.lastUpdated }}</td>
+                <td><a href="{{ url_for('customerStatus') }}" class="badge text-decoration-none text-dark badge-primary">Refresh</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock main %}
+
+
+{% block js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $("#statustable").DataTable({
+            "info": true,
+            "order": [4 ,'desc']
+        });
+    </script>
+{% endblock js %}
+

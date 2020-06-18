@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %} TCS Bank | Account Creation {% endblock title %}
+{% block title %} NAMASTE Bank | Account Creation {% endblock title %}
 
 {% block main %}
 
@@ -10,15 +10,29 @@
 
 <div class="d-flex justify-content-center">
     <div class="jumbotron col-lg-8">
-        {% from "includes/_form.html" import form_inline_field %}
-        <form method="POST" action="{{ url_for('accountDelete') }}" novalidate>
-            {{ form.hidden_tag() }}
-            {{ form_inline_field(form.accountId, class="form-control") }}
-            {{ form_inline_field(form.accountType, class="form-control") }}
-            <div class="d-flex justify-content-center mt-5">
-                {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark text-warning") }}
+        <div class="">
+            <div class="row mb-3">
+                <div class="col-3"></div>
+                <div class="col-3 font-weight-bold">Customer Id</div>
+                <div class="col-6">{{ c.customerId }}</div>
             </div>
-        </form>
+            <div class="row mb-3">
+                <div class="col-3"></div>
+                <div class="col-3 font-weight-bold">Account Id</div>
+                <div class="col-6">{{ c.accountId }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3"></div>
+                <div class="col-3 font-weight-bold">Account Type</div>
+                <div class="col-6">{{ c.accType }}</div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-5">
+            <form method="POST" accept="" novalidate>
+                <button type="submit" class="btn btn-outline-primary rounded-0 bg-dark
+                text-warning px-5">Confirm Delete</button>
+            </form>
+        </div>
     </div>
 </div>
 

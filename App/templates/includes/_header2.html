@@ -1,0 +1,25 @@
+<header class="header bg-dark mb-3">
+    <div class="d-flex justify-content-center">
+        <img src="{{ url_for('static', filename='namaste-bank-2.png') }}" class="img" alt="Logo" height="60px">
+    </div>
+    {% if session.is_login %}
+    <div class="container bg-warning">
+        <nav class="navbar navbar-expand-lg py-0">
+            <ul class="navbar-nav mr-auto font-weight-bold">
+                <li class="nav-item px-2">
+                    <a class="nav-link text-dark" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link text-dark" href="{{ url_for('accountDetails', id=id) }}">Account Details</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link text-dark" href="{{ url_for('accountStatement', id=id) }}">Account Statement</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link text-dark" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+            {% endif %}
+        </nav>
+    </div>
+</header>

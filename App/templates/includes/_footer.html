@@ -1,9 +1,13 @@
+{% if session.is_login %}
 <footer class="footer">
     <div class="container-fluid text-center text-white bg-dark py-3">
         <div class="row">
             <div class="col-lg-4">
-                <h3 class="text-warning text-capitalize">About Us</h3>
-                <p>TCS is founded in 1968.We are the leading Bankers of India.We have partnership with Govt. of India.</p>
+                <h3 class="text-warning text-capitalize"><a href="{{ url_for('aboutus') }}" class="text-decoration-none text-warning">About Us</a></h3>
+                <p> <div class="col-12 text-center">
+                    <h2>NAMASTE BANK</h2>
+                    <hr>
+                </div>
                 <div>
                     <a href="#" class="fa fa-facebook fa-1x mx-1"></a>
                     <a href="#" class="fa fa-twitter mx-1"></a>
@@ -13,16 +17,19 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <h3 class="text-warning text-capitalize">Service</h3>
-                <p>We provide Banking solutions to the world.</p>
+                <h3 class="text-warning text-capitalize"><a href="{{ url_for('services') }}" class="text-decoration-none text-warning ">Service</a></h3>
+                <p>Fixed Deposit<br>
+                    Insurance<br>
+                    Loans<br>
+                    Lockers<br>
+                </p>
             </div>
             <div class="col-lg-4">
-                <h3 class="text-warning text-capitalize">Contact Us</h3>
-                <p>Helpline Number (Xplore)<br>
-                    1800-572-3858 (TOLL FREE)<br>
-                    ueries (IT)
-                    careers@tcs.com<br>
-                    Address: Corporate office,Navi Mumbai(Maharashtra)
+                <h3 class="text-capitalize"><a href="{{ url_for('contactus') }}" class="text-decoration-none text-warning">Contact Us</a></h3>
+                <p>Helpline Number (India)<br>
+                    1234-567-8910 (TOLL FREE)<br>
+                    Namaste Bank Pvt. Ltd.<br>
+                    support@namastebank.com<br>
                 </p>
             </div>
         </div>
@@ -31,3 +38,4 @@
         </div>
     </div>
 </footer>
+{% endif %}

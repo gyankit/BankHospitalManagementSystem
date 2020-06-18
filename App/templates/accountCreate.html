@@ -1,6 +1,11 @@
 {% extends 'layout.html' %}
 
-{% block title %} TCS Bank | Account Creation {% endblock title %}
+{% block title %} NAMASTE Bank | Account Creation {% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2-bootstrap4.min.css') }}">
+{% endblock css %}
 
 {% block main %}
 
@@ -14,13 +19,22 @@
         <form method="POST" action="{{ url_for('accountCreate') }}" novalidate>
             {{ form.hidden_tag() }}
             {{ form_inline_field(form.customerId, class="form-control") }}
-            {{ form_inline_field(form.accountType, class="form-control") }}
+            {{ form_inline_field(form.accountType, class="form-control select2") }}
             {{ form_inline_field(form.depositAmount, class="form-control") }}
             <div class="d-flex justify-content-center mt-5">
-                {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark text-warning") }}
+                {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark text-warning px-5") }}
             </div>
         </form>
     </div>
 </div>
 
 {% endblock main %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/select2/js/select2.min.js') }}"></script>
+    <script>
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        });
+    </script>
+{% endblock js %}

@@ -8,7 +8,7 @@ def login_required(f):
             return f(*args, **kwargs)
         else:
             flash('You need to login first', 'warning')
-            return redirect(url_for('login', next=request.url))
+            return redirect(url_for('login'))
     return decorated_function
 
 def login_checked(f):

@@ -1,9 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    TCS Bank | Account | Status
+NAMASTE Bank | Account | Status
 {% endblock title %}
   
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
+{% endblock css %}
 
 {% block main %}
 
@@ -12,34 +15,49 @@
 </div>
 
 <div class="jumbotron">
-<table class="table table-bordered table-hover table-responsive">
-    <thead class="bg-dark text-warning">
-        <tr>
-            <th>Customer Id</th>
-            <th>Account Id</th> 
-            <th>Account Type</th>
-            <th>Account Status</th>
-            <th>Message</th>
-            <th>Last Updated</th>
-            <th>Operations</th>
-        </tr>
-    </thead>
-    <tbody class="">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><a href="">refresh</a></td>
-        </tr>
-    </tbody>
-</table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-sm" id="statustable">
+            <thead class="bg-dark text-warning">
+                <tr>
+                    <th scope="col">Customer Id</th>
+                    <th scope="col">Account Id</th> 
+                    <th scope="col">Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Last Updated</th>
+                    <th scope="col">Operations</th>
+                </tr>
+            </thead>
+            <tbody class="">
+                {% for account in accounts %}   
+                <tr>
+                    <td scope="row">{{ account.customerId }}</td>
+                    <td>{{ account.accountId }}</td>
+                    <td>{{ account.accType }}</td>
+                    <td>{{ account.status }}</td>
+                    <td>{{ account.message }}</td>
+                    <td>{{ account.lastUpdated }}</td>
+                    <td><a href="{{ url_for('accountStatus') }}" class="badge text-decoration-none text-dark badge-primary">Refresh</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<div class="d-flex justify-content-center">
-  <a class="btn btn-dark btn-lg rounded-0 col-lg-3 text-warning" href="{{ url_for('accountStatus') }}">Refresh the list</a>
-</div>
+    <div class="d-flex justify-content-center">
+    <a class="btn btn-dark btn-lg rounded-0 col-lg-3 text-warning px-5" href="{{ url_for('accountStatus') }}">Refresh the list</a>
+    </div>
 </div>
 
 {% endblock main %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $("#statustable").DataTable({
+            "info": true,
+            "order": [5 ,'desc']
+        });
+    </script>
+{% endblock js %}

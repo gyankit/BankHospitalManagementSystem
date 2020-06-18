@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %} NAMASTE Bank | Update Customer Screen {% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2-bootstrap4.min.css') }}">
+{% endblock css %}
+
+{% block main %}
+
+<div class="alert text-center">
+    <h2 class="">Update Customer</h2>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="jumbotron col-lg-8">
+        {% from "includes/_form.html" import form_inline_field %}
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="row mb-3">
+                <div class="col-3 font-weight-bold">Customer SSN Id</div>
+                <div class="col-9">{{ c.ssnid }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3 font-weight-bold">Customer ID</div>
+                <div class="col-9">{{ c.customerId }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3 font-weight-bold">Customer Name</div>
+                <div class="col-9">{{ c.customerName }}</div>
+            </div>
+            {{ form_inline_field(form.customerName, class="form-control") }} 
+            <div class="row mb-3">
+                <div class="col-3 font-weight-bold">Customer Age</div>
+                <div class="col-9">{{ c.age }}</div>
+            </div>
+            {{ form_inline_field(form.age, class="form-control") }}
+            <div class="row mb-3">
+                <div class="col-3 font-weight-bold">Customer Address</div>
+                <div class="col-9">{{ c.address }}</div>
+            </div>
+            {{ form_inline_field(form.state, class="form-control select2") }}
+            {{ form_inline_field(form.city, class="form-control select2") }}
+            <div class="d-flex justify-content-center mt-5">
+                {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark
+                text-warning px-5") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock main %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/select2/js/select2.min.js') }}"></script>
+    <script>
+        let state_select = document.getElementById('state');
+        let city_select = document.getElementById('city');
+        state_select.onchange = function () {
+            state = state_select.value;
+            fetch('/city/' + state).then(function (response) {
+                response.json().then(function (data) {
+                    let optionHTML = '';
+                    for (let city of data.cities) {
+                        optionHTML += '<option value="' + city.name + '">' + city.name + '</option>';
+                    }
+                    city_select.innerHTML = optionHTML;
+                });
+            });
+        };
+    </script>
+    <script>
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        });
+    </script>
+{% endblock js %}

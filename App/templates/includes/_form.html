@@ -2,26 +2,30 @@
     <div class="form-group">
         {{ field.label }}
         {{ field(**kwargs)|safe }}
+        {% if field.errors %} 
         <div class="mt-1 d-flex justify-content-end">
             {% for error in field.errors %}
                 <p class="text-danger font-weight-bold">{{ error }}</p>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 {% endmacro %}
 
 {% macro form_inline_field(field) %}
-    <div class="form-group row">
-        <div class="col-lg-3">
-            {{ field.label(class="font-weight-bold") }}
+    <div class="form-group">
+        <div class="row">
+            {{ field.label(class="col-lg-3 font-weight-bold") }}
+            <div class="col-lg-9">
+                {{ field(**kwargs)|safe }}
+            </div>
         </div>
-        <div class="col-lg-9">
-            {{ field(**kwargs)|safe }}
-        </div>
+        {% if field.errors %}   
         <div class="d-flex justify-content-end">
             {% for error in field.errors %}
-                <p class="text-danger font-weight-bold">{{ error }}</p>
+            <p class="text-danger font-weight-bold">{{ error }}</p>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 {% endmacro %}

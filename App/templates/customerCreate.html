@@ -1,6 +1,11 @@
-{% extends 'layout.html' %}
+{% extends 'layout.html' %} 
 
-{% block title %}TCS Bank | Create Customer Screen {% endblock title %}
+{% block title %} NAMASTE Bank | Create Customer Screen{% endblock title %} 
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2-bootstrap4.min.css') }}">
+{% endblock css %}
 
 {% block main %}
 
@@ -12,38 +17,42 @@
     <div class="jumbotron col-lg-8">
         {% from "includes/_form.html" import form_inline_field %}
         <form method="POST" action="" novalidate>
-            {{ form.hidden_tag() }}
-            {{ form_inline_field(form.ssnid, class="form-control") }}
-            {{ form_inline_field(form.customer_name, class="form-control") }}
+            {{ form.hidden_tag() }} 
+            {{ form_inline_field(form.ssnid, class="form-control") }} 
+            {{ form_inline_field(form.customerName, class="form-control") }} 
             {{ form_inline_field(form.age, class="form-control") }}
-            {{ form_inline_field(form.address, class="form-control") }}
-            {{ form_inline_field(form.state, class="form-control") }}
-            {{ form_inline_field(form.city, class="form-control") }}
+            {{ form_inline_field(form.state, class="form-control select2", style="width: 100%;") }}
+            {{ form_inline_field(form.city, class="form-control select2", style="width: 100%;") }}
             <div class="d-flex justify-content-center mt-5">
-                {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark text-warning") }}
+                {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark
+                text-warning px-5") }}
             </div>
         </form>
     </div>
 </div>
-{% endblock main %}
+{% endblock main %} 
 
 {% block js %}
-<script>
-    let state_select = document.getElementById('state')
-    let city_select = document.getElementById('city')
-    state_select.onchange = function() {
-        state = state_select.value;
-        fetch('/city/' + state).then(function(response){		
-            response.json().then(function(data) {
-                let optionHTML = '';
-                for (let city of data.cities) {
-                    optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
-                }
-                city_select.innerHTML = optionHTML;
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/select2/js/select2.min.js') }}"></script>
+    <script>
+        let state_select = document.getElementById('state');
+        let city_select = document.getElementById('city');
+        state_select.onchange = function () {
+            state = state_select.value;
+            fetch('/city/' + state).then(function (response) {
+                response.json().then(function (data) {
+                    let optionHTML = '';
+                    for (let city of data.cities) {
+                        optionHTML += '<option value="' + city.name + '">' + city.name + '</option>';
+                    }
+                    city_select.innerHTML = optionHTML;
+                });
             });
+        };
+    </script>
+    <script>
+        $('.select2').select2({
+            theme: 'bootstrap4'
         });
-    }
-</script>
+    </script>
 {% endblock js %}
-
-

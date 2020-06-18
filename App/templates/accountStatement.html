@@ -1,0 +1,137 @@
+{% extends 'layout2.html' %}
+
+{% block title %}
+NAMASTE Bank | Account | Statement | Generated
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jquery-ui/jquery-ui.min.css') }}">
+{% endblock css %}
+
+{% block main %}
+
+<div class="alert text-center">
+    <h2 class="">Account Statement</h2>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="jumbotron col-lg-6">
+        <form method="POST" action="" name="form" novalidate>
+            <div class="form-group">
+                <div class="row">
+                    <label for="accountId" class="col-lg-3 font-weight-bold">Account Id</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" name="accountId" id="accountId" readonly="readonly" value="{{ id }}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="radiobtn" id="radiobtn1" value="radiobtn1">
+                <label class="form-check-label font-weight-bold" for="noOfTransaction">Last Number of Transaction</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="radiobtn" id="radiobtn2" value="radiobtn2">
+                <label class="form-check-label font-weight-bold" for="startEndDate">Start End Date</label>
+            </div>
+            <div class="mt-3" id="noOfTransaction" style="display: none;">
+                <div class="row">
+                    <label class="col-lg-3 font-weight-bold" for="noOfTransaction">Number of Transaction</label>
+                    <div class="col-lg-9">
+                        <select class="form-control select2" name="noOfTransaction">
+                            {% for i in range(1,21) %}       
+                            <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3" id="startEndDate" style="display: none;">
+                <div class="row my-2">
+                    <label for="startDate" class="col-lg-3 font-weight-bold">Start Date</label>
+                    <div class="input-group col-lg-9 date datepicker">
+                        <input type="text" class="form-control" name="startDate" id="startDate" data-provide="datepicker">
+                        <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-calendar-check-o"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <label for="endDate" class="col-lg-3 font-weight-bold">End Date</label>
+                    <div class="input-group col-lg-9 date datepicker">
+                        <input type="text" class="form-control" name="endDate" id="endDate" data-provide="datepicker">
+                        <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-calendar-check-o"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <button type="submit" class="btn btn-outline-primary rounded-0 bg-dark text-warning px-5">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% if datas %}
+<div class="jumbotron">
+    <div class="table-responsible">
+        <table class="table table-bordered table-hover table-sm" id="statustable">
+            <thead class="bg-dark text-warning">
+                <tr>
+                    <th>Transaction Id</th>
+                    <th>Date(YYYY-MM-DD)</th>
+                    <th>Description</th> 
+                    <th>Amount</th>
+                    <th>Current Balance</th>
+                </tr>
+            </thead>
+            <tbody class="">
+                {% for data in datas %}    
+                <tr>
+                    <td>{{ data.transactionId }}</td>
+                    <td>{{ data.date }}</td>
+                    <td>{{ data.description }}</td>
+                    <td>{{ data.amount }}</td>
+                    <td>{{ data.balance }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock main %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/select2/js/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){ 
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            });
+            $('#radiobtn1').click(function(){
+                $('#noOfTransaction').show();
+                $('#startEndDate').hide();
+            });
+            $('#radiobtn2').click(function(){
+                $('#noOfTransaction').hide();
+                $('#startEndDate').show();
+            });
+            $("#statustable").DataTable({
+                "info": true,
+                "order": [1 ,'desc']
+            });
+            $("#startDate").datepicker({
+                "dateFormat": "yy-mm-dd"
+            });
+            $("#endDate").datepicker({
+                "dateFormat": "yy-mm-dd"
+            });
+        });
+    </script>
+{% endblock js %}

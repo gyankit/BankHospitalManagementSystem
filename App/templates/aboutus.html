@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+{% block title %} NAMASTE BANK | About Us{% endblock title %}
+
+{% block main %}
+
+<section>
+    <div class="container p-1 p-sm-3 text-center">
+        <div class="row">
+            <div class="col-12">
+                <h1>About Us</h1>
+            </div>
+        </div>
+    </div>  
+</section>
+
+<section class="about-company-section">
+    <div class="container p-1 p-sm-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>NAMASTE BANK</h2>
+                <hr>
+            </div>
+
+            <div class="col-md-3">
+                <img class="img-fluid" src="{{ url_for('static', filename='namaste-bank.png') }}" alt="">
+            </div>
+
+            <div class="col-9">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, voluptates vero. Sed nulla accusamus similique ratione exercitationem non at sint inventore laborum mollitia veniam necessitatibus, iure quos aliquid odio nihil.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, voluptates vero. Sed nulla accusamus similique ratione exercitationem non at sint inventore laborum mollitia veniam necessitatibus, iure quos aliquid odio nihil.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, voluptates vero. Sed nulla accusamus similique ratione exercitationem non at sint inventore laborum mollitia veniam necessitatibus, iure quos aliquid odio nihil.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3>Our Developers</h3>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <img class="img-fluid qualities-img p-5" src="{{ url_for('static', filename='developers/gyan.jpg') }}">
+                <h5>Gyan Ankit</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <img class="img-fluid qualities-img p-5" src="{{ url_for('static', filename='developers/devraj.png') }}">
+                <h5>Devraj Roy</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <img class="img-fluid qualities-img p-5" src="{{ url_for('static', filename='developers/pritam.jpg') }}">
+                <h5>Pritam Chatterjee</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <img class="img-fluid qualities-img p-5" src="{{ url_for('static', filename='developers/prabhat.png') }}">
+                <h5>Prabhat Sarkhel</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <img class="img-fluid qualities-img p-5" src="{{ url_for('static', filename='developers/anupam.png') }}">
+                <h5>Anupam Anurag</h5>
+            </div>
+
+            
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

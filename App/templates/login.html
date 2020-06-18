@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
-{% block title %} TCS Bank | Login {% endblock title %}
+{% block title %} NAMASTE Bank | Login {% endblock title %}
 
 {% block main %}
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mb-5">
     <div class="card mt-5 w-50">
         <div class="card-header">
-            <h1 class="card-title text-center">TCS Bank</h1>
+            <h1 class="card-title text-center">NAMASTE Bank</h1>
         </div>
         <div class="card-body">
             {% from "includes/_form.html" import form_field %}
@@ -15,7 +15,9 @@
                 {{ form_field(form.username, class="form-control") }}
                 {{ form_field(form.password, class="form-control") }}
                 {{ form_field(form.rememberMe) }}
-                {{ form.submit(class="btn btn-outline-primary") }}
+                <div class="d-flex justify-content-center">
+                    {{ form.submit(class="btn btn-outline-primary rounded-0 bg-dark text-warning px-5") }}
+                </div>
             </form>
         </div>
     </div>
