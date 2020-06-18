@@ -389,19 +389,22 @@ def amountDeposit(id):
     acc = Account.query.filter_by(accountId=id).first()
     if request.method == 'POST' and form.validate_on_submit():
         amount = request.form.get('amount')
-        acc.balance = int(acc.balance) + int(amount)
-        
-        transactionId = 0
-        while True:
-            transactionId = random_num()
-            if not TransactionStatement.query.filter_by(transactionId=transactionId).first():
-                        break
-        newTransaction = TransactionStatement(accountId=id, transactionId=transactionId, description='Deposit', date=datetime.now(), amount=int(amount), balance=acc.balance)
-        db.session.add(newTransaction)
+        if int(ammount) > 0:
+            acc.balance = int(acc.balance) + int(amount)
+            
+            transactionId = 0
+            while True:
+                transactionId = random_num()
+                if not TransactionStatement.query.filter_by(transactionId=transactionId).first():
+                            break
+            newTransaction = TransactionStatement(accountId=id, transactionId=transactionId, description='Deposit', date=datetime.now(), amount=int(amount), balance=acc.balance)
+            db.session.add(newTransaction)
 
-        db.session.commit()
-        flash('Amount deposited successfully', 'success')
-        return redirect(url_for('accountDetails', id=id))
+            db.session.commit()
+            flash('Amount deposited successfully', 'success')
+            return redirect(url_for('accountDetails', id=id))
+        else:
+            flash('Warning! Invalid Amount Provided', 'warning')
     return render_template('amountDeposit.html', form=form, acc=acc, id=id)
 
 
@@ -414,23 +417,25 @@ def amountWithdraw(id):
     acc = Account.query.filter_by(accountId=id).first()
     if request.method == 'POST' and form.validate_on_submit():
         amount = request.form.get('amount')
-        print(type(acc.balance))
-        if int(acc.balance) > int(amount):
-            acc.balance = int(acc.balance) - int(amount)
+        if int(ammount) > 0:
+            if int(acc.balance) > int(amount):
+                acc.balance = int(acc.balance) - int(amount)
 
-            transactionId = 0
-            while True:
-                transactionId = random_num()
-                if not TransactionStatement.query.filter_by(transactionId=transactionId).first():
-                            break
-            newTransaction = TransactionStatement(accountId=id, transactionId=transactionId, description='Withdraw', date=datetime.now(), amount=int(amount), balance=acc.balance)
-            db.session.add(newTransaction)
+                transactionId = 0
+                while True:
+                    transactionId = random_num()
+                    if not TransactionStatement.query.filter_by(transactionId=transactionId).first():
+                                break
+                newTransaction = TransactionStatement(accountId=id, transactionId=transactionId, description='Withdraw', date=datetime.now(), amount=int(amount), balance=acc.balance)
+                db.session.add(newTransaction)
 
-            db.session.commit()
-            flash('Amount withdrawn successfully', 'success')
-            return redirect(url_for('accountDetails', id=id))
+                db.session.commit()
+                flash('Amount withdrawn successfully', 'success')
+                return redirect(url_for('accountDetails', id=id))
+            else:
+                flash('Withdraw not allowed, please choose smaller amount', 'danger')
         else:
-            flash('Withdraw not allowed, please choose smaller amount', 'danger')
+            flash('Warning! Invalid Amount Provided', 'warning')
     return render_template('amountWithdraw.html', form=form, acc=acc, id=id)
 
 
@@ -447,26 +452,29 @@ def amountTransfer(id):
         sourceAcc = Account.query.filter_by(accountId=sourceId).first()
         targetAcc = Account.query.filter_by(accountId=targetId).first()
         if targetAcc is not None:
-            if int(sourceAcc.balance) > int(amount):
-                sourceAcc.balance = int(sourceAcc.balance) - int(amount)
-                targetAcc.balance = int(targetAcc.balance) + int(amount)
+            if int(ammount) > 0:
+                if int(sourceAcc.balance) > int(amount):
+                    sourceAcc.balance = int(sourceAcc.balance) - int(amount)
+                    targetAcc.balance = int(targetAcc.balance) + int(amount)
 
-                transactionId = 0
-                while True:
-                    transactionId = random_num()
-                    if not TransactionStatement.query.filter_by(transactionId=transactionId).first():
-                        break
+                    transactionId = 0
+                    while True:
+                        transactionId = random_num()
+                        if not TransactionStatement.query.filter_by(transactionId=transactionId).first():
+                            break
 
-                sourceTransaction = TransactionStatement(accountId=sourceId, transactionId=transactionId, description='Transfer', date=datetime.now(), amount=int(amount), balance=sourceAcc.balance)
-                targetTransaction = TransactionStatement(accountId=targetId, transactionId=transactionId, description='Transfer', date=datetime.now(), amount=int(amount), balance=targetAcc.balance)
-                db.session.add(sourceTransaction)
-                db.session.add(targetTransaction)
+                    sourceTransaction = TransactionStatement(accountId=sourceId, transactionId=transactionId, description='Transfer', date=datetime.now(), amount=int(amount), balance=sourceAcc.balance)
+                    targetTransaction = TransactionStatement(accountId=targetId, transactionId=transactionId, description='Transfer', date=datetime.now(), amount=int(amount), balance=targetAcc.balance)
+                    db.session.add(sourceTransaction)
+                    db.session.add(targetTransaction)
 
-                db.session.commit()
-                flash('Amount transfer completed successfully', 'success')
-                return redirect(url_for('accountDetails', id=id))
+                    db.session.commit()
+                    flash('Amount transfer completed successfully', 'success')
+                    return redirect(url_for('accountDetails', id=id))
+                else:
+                    flash('Transfer not allowed, please choose smaller amount', 'warning')
             else:
-                flash('Transfer not allowed, please choose smaller amount', 'warning')
+                flash('Warning! Invalid Amount Provided', 'warning')
         else:
             flash('Wrong Target Account ID', 'danger')
     return render_template('amountTransfer.html', form=form, accountId=id, id=id)
